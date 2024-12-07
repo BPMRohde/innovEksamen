@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
+import { Text, View, StyleSheet, SafeAreaView, ScrollView, Image} from 'react-native';
 import {useEffect, useState} from "react"; 
 import Colors from '../constants/Colors';
 
@@ -16,11 +16,12 @@ const View_marker = ({navigation, route}) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView contentContainerStyle={[styles.container, {borderBottomWidth: 0}]}>
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 {marker === '' ? 
                 (<Text>Loading...</Text>) :
                 (<View>
                     <View style={styles.card}>
+                        <Image source={require('../assets/login.png')} style={{width: '100%', height: 200}} />
                         <Text style={{font: 'bold', fontSize: 30, marginBottom: 10}}>{marker.title}</Text>
                         <Text style={{fontSize: 20, marginBottom: 10}}>Type: {marker.type}</Text>
                         <Text style={{fontSize: 20, marginBottom: 10}}>{marker.description}</Text>
@@ -45,12 +46,17 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: 'white',
         padding: 20,
-        margin: 10,
         borderRadius: 10,
         alignItems: 'center',
     },
     section: {
         marginBottom: 20,
+    },
+    scrollViewContent: {
+        flexGrow: 1,
+        alignItems: 'center',
+        paddingBottom: 20, // Optional, adds padding to the bottom of the scrollview for better touchability
+        width: '95%', // Full width
     },
 })
 

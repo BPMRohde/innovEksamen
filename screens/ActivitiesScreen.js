@@ -37,7 +37,7 @@ const ActivitiesScreen = () => {
       <ScrollView contentContainerStyle={styles.scrollViewContent}
       >
         {activities.map((activity) => (
-          <ActivityCard key={activity.id} {...activity} />
+          <ActivityCard key={activity.id} activity={activity} />
         ))}
       </ScrollView>
     </SafeAreaView>

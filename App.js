@@ -125,9 +125,17 @@ export default function App() {
     </Tab.Navigator>
   );
 
+  // Stack for additional screens outside the Bottom Tabs
+  const MainStack = () => (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Tabs" component={AppTabs} />
+      <Stack.Screen name="View_marker" component={View_marker} />
+    </Stack.Navigator>
+  );
+
   return (
     <NavigationContainer>
-      {user ? <AppTabs /> : <AuthStack />}
+      {user ? <MainStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }

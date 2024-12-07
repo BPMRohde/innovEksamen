@@ -1,20 +1,24 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, View, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Colors from '../constants/Colors';
 
-const ActivityCard = ({ title, type, rating }) => {
-  return (
-    <TouchableOpacity style={styles.card}>
-      <Image source={require('../assets/login.png')} style={styles.image} />
-      <View style={styles.textContainer}>
-            <Text style={styles.title}>{title}</Text>
-        <View style={styles.details}>
-            <Text style={styles.type}>{type}</Text>
-            <Text style={styles.rating}>Rating: {rating}</Text>
+const ActivityCard = ({ activity }) => {
+    const navigation = useNavigation();
+    //Her gemmes aktiviteten i variablen marker, det skal den for at kunne sendes videre til View_marker.
+    const marker = activity;
+    return (
+      <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('View_marker', {marker})}>
+        <Image source={require('../assets/login.png')} style={styles.image} />
+        <View style={styles.textContainer}>
+              <Text style={styles.title}>{activity.title}</Text>
+          <View style={styles.details}>
+              <Text style={styles.type}>{activity.type}</Text>
+              <Text style={styles.rating}>Rating: {activity.rating}</Text>
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
 };
 
 const styles = StyleSheet.create({
