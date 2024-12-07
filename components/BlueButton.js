@@ -2,6 +2,13 @@ import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import Colors from '../constants/Colors';
 
+/**
+ * Denne komponent bruges til at vise en blå knap.
+ * Knappen tager imod to props: text og action.
+ * text er den tekst, der skal vises på knappen.
+ * action er den funktion, der skal udføres, når knappen trykkes.
+ */
+
 const BlueButton = ({ text, action }) => {
   return (
     <TouchableOpacity onPress={action} style={styles.button}>

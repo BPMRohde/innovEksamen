@@ -4,6 +4,7 @@ const Colors = {
     secondary: '#FAFFF6',
     activeNavigation: '#FAFFF6',
     buttonColor: '#0D7AFF',
+    white: '#FFFFFF',
 };
 
 export default Colors;

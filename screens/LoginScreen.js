@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet, Text, Button } from 'react-native'; // Imp
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'; // Importerer Firebase autentificeringsfunktioner
 import { Image } from 'react-native';
 import Colors from '../constants/Colors';
-import BlueButton from './BlueButton';
+import BlueButton from '../components/BlueButton';
 
 const LoginScreen = ({ navigation }) => {
   // State til at holde email, adgangskode og eventuelle fejlmeddelelser

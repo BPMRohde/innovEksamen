@@ -13,16 +13,16 @@ import { getDatabase } from 'firebase/database'; // Firebase Realtime Database
 
 
 //Her importeres vores screens
-import Map from "./components/map";
-import Add_edit_marker from './components/Add_edit_marker';
-import View_marker from './components/View_marker';
-import LoginScreen from './components/LoginScreen';
-import RegisterScreen from './components/RegisterScreen';
-import ProfileScreen from './components/ProfileScreen';
+import Map from "./screens/map";
+import Add_edit_marker from './screens/Add_edit_marker';
+import View_marker from './screens/View_marker';
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import ActivitiesScreen from './screens/ActivitiesScreen';
 
 
 const firebaseConfig = {
-  apiKey: "",
   authDomain: "fir-test-b3f66.firebaseapp.com",
   databaseURL: "https://fir-test-b3f66-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "fir-test-b3f66",
@@ -99,8 +99,8 @@ export default function App() {
         }}
       />
       <Tab.Screen
-        name="View Marker"
-        component={View_marker}
+        name="Activities"
+        component={ActivitiesScreen}
         options={{
           tabBarIcon: () => (
             <Image

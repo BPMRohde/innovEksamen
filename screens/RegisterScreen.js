@@ -4,7 +4,7 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'; // Impo
 import { getDatabase, ref, set } from 'firebase/database'; // Importerer Firebase database funktioner
 import Colors from '../constants/Colors';
 import { Image } from 'react-native';
-import BlueButton from './BlueButton';
+import BlueButton from '../components/BlueButton';
 
 const RegisterScreen = ({ navigation }) => {
   // State til at holde værdier for brugernavn, email og adgangskode

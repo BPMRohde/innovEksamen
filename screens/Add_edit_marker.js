@@ -4,8 +4,9 @@ import { getDatabase, ref, push, update  } from "firebase/database";
 import Colors from '../constants/Colors';
 import { TouchableOpacity } from 'react-native';
 import * as Location from 'expo-location';
-import BlueButton from './BlueButton';
+import BlueButton from '../components/BlueButton';
 import {Picker} from '@react-native-picker/picker';
+import CostSelect from '../components/CostSelect';
 
 const Add_edit_marker = ({navigation, route}) => {
     const db = getDatabase();
@@ -16,12 +17,13 @@ const Add_edit_marker = ({navigation, route}) => {
         },
         title: '',
         type: '',
+        rating: 0,
         description: '',
-        address: ''
+        address: '',
+        cost: '',
     }
 
     const [newMarker, setNewMarker] = useState(initialState);
-    const [selectedPrice, setSelectedPrice] = useState();
 
     useEffect(() => {
         return () => {
@@ -50,7 +52,7 @@ const Add_edit_marker = ({navigation, route}) => {
     
     //Denne funktion bruges til at gemme en markør
     const saveMarker = async () => {
-        const {title, type, description, address} = newMarker;
+        const {title, type, description, address, rating, cost} = newMarker;
         if (title === '' || type === '' || description === ''|| address === '') {
             Alert.alert('Please fill out all fields');
             return;
@@ -84,7 +86,9 @@ const Add_edit_marker = ({navigation, route}) => {
             type,
             description,
             latlng: {latitude, longitude},
-            address
+            address,
+            rating,
+            cost,
         };
 
         await push(markerRef, newMarkerRef)
@@ -106,20 +110,29 @@ const Add_edit_marker = ({navigation, route}) => {
                     
                     <Picker
                     style={{width: '100%'}}
-                    selectedValue={selectedPrice}
                     onValueChange={(itemValue, itemIndex) =>
                         changeTextInput('type',itemValue)
                     }
+                    selectedValue={newMarker.type}
                     >
-                        <Picker.Item label="Restaurant" value="restaurant" />
-                        <Picker.Item label="Club" value="club" />
-                        <Picker.Item label="Bar" value="bar" />
-                        <Picker.Item label="Cafe" value="cafe" />
-                        <Picker.Item label="Activity" value="activity" />
-                        <Picker.Item label="Tourist attraction" value="tourist_attraction" />
-                        <Picker.Item label="Other" value="other" />
+                        <Picker.Item label="Restaurant" value="Restaurant" />
+                        <Picker.Item label="Club" value="Club" />
+                        <Picker.Item label="Bar" value="Bar" />
+                        <Picker.Item label="Cafe" value="Cafe" />
+                        <Picker.Item label="Activity" value="Activity" />
+                        <Picker.Item label="Tourist attraction" value="Tourist Attraction" />
+                        <Picker.Item label="Other" value="Other" />
                     </Picker>
+                    <TextInput
+                        style={styles.input}
+                        keyboardType="numeric"
+                        value={newMarker.rating}
+                        maxLength={2} // To prevent entering numbers beyond 99
+                        placeholder="Rating 1-10"
+                        onChangeText={(e) => changeTextInput('rating',e)}
+                    />
                     <TextInput style={[styles.input]} placeholder='Write Address' value={newMarker.address} onChangeText={(e) => changeTextInput('address',e)}></TextInput>
+                    <CostSelect action={changeTextInput} />
                     <TextInput 
                         style={[styles.input, {height: 100}]} 
                         placeholder='Write review here...' 
