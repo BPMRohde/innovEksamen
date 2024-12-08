@@ -7,6 +7,7 @@ import * as Location from 'expo-location';
 import BlueButton from '../components/BlueButton';
 import {Picker} from '@react-native-picker/picker';
 import CostSelect from '../components/CostSelect';
+import ImagePickerExample from '../components/ImagePicker';
 
 const Add_edit_marker = ({navigation, route}) => {
     const db = getDatabase();
@@ -106,6 +107,7 @@ const Add_edit_marker = ({navigation, route}) => {
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.card}>
                     <Text style={{font: 'bold', fontSize: 30, marginBottom: 10}}>Write Review</Text>
+                    <ImagePickerExample />
                     <TextInput style={styles.input} value={newMarker.title} placeholder='Title' onChangeText={(e) => changeTextInput('title',e)}></TextInput>
                     
                     <Picker

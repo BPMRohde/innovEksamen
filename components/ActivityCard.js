@@ -9,7 +9,7 @@ const ActivityCard = ({ activity }) => {
     const marker = activity;
     return (
       <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('View_marker', {marker})}>
-        <Image source={require('../assets/login.png')} style={styles.image} />
+        <Image source={require('../assets/tivoli.jpg')} style={styles.image} />
         <View style={styles.textContainer}>
               <Text style={styles.title}>{activity.title}</Text>
           <View style={styles.details}>
@@ -51,10 +51,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     flexWrap: 'wrap', // Teksten brydes, hvis den er for lang
   },
-    details: {
-        flexDirection: 'row',
-        width: '100%',
-    },
+  details: {
+    flexDirection: 'row',
+    width: '100%',
+  },
   type: {
     textAlign: 'left', // Justeret til venstre
     flexWrap: 'wrap', // Teksten brydes, hvis den er for lang

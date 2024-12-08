@@ -17,7 +17,6 @@ const LoginScreen = ({ navigation }) => {
     signInWithEmailAndPassword(auth, email, password) // Forsøger at logge brugeren ind
       .then((userCredential) => {
         console.log("User logged in successfully!"); // Log meddelelse ved succesfuld login
-        navigation.navigate("Profile"); // Naviger til profilsiden
       })
       .catch((error) => {
         setError(error.message); // Sætter fejlmeddelelsen, hvis login fejler

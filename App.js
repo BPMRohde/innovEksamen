@@ -20,6 +20,7 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import ActivitiesScreen from './screens/ActivitiesScreen';
+import ForumScreen from './screens/ForumScreen';
 
 
 const firebaseConfig = {
@@ -87,8 +88,8 @@ export default function App() {
         }}
       />
       <Tab.Screen
-        name="Add Marker"
-        component={Add_edit_marker}
+        name="Forum"
+        component={ForumScreen}
         options={{
           tabBarIcon: () => (
             <Image

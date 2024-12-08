@@ -1,8 +1,9 @@
 import { Text, View, StyleSheet, SafeAreaView, ScrollView, Image} from 'react-native';
 import {useEffect, useState} from "react"; 
 import Colors from '../constants/Colors';
+import RatingCard from '../components/RatingCard';
 
-const View_marker = ({navigation, route}) => {
+const View_marker = ({route}) => {
     const [marker, setMarker] = useState('');
 
     useEffect(() => {
@@ -19,14 +20,20 @@ const View_marker = ({navigation, route}) => {
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 {marker === '' ? 
                 (<Text>Loading...</Text>) :
-                (<View>
-                    <View style={styles.card}>
-                        <Image source={require('../assets/login.png')} style={{width: '100%', height: 200}} />
-                        <Text style={{font: 'bold', fontSize: 30, marginBottom: 10}}>{marker.title}</Text>
-                        <Text style={{fontSize: 20, marginBottom: 10}}>Type: {marker.type}</Text>
-                        <Text style={{fontSize: 20, marginBottom: 10}}>{marker.description}</Text>
-                        <Text style={{fontSize: 20, marginBottom: 10}}>Latitude: {marker.latlng.latitude}</Text>
-                        <Text style={{fontSize: 20, marginBottom: 10}}>Longitude: {marker.latlng.longitude}</Text>
+                (<View style={styles.card}>
+                    <View style={{width:'100%', marginBottom: 10}}>
+                        <Image source={require('../assets/tivoli.jpg')} style={{width:'100%', height: 250}} />
+                        <Text style={[styles.text, {position: 'absolute', bottom: 20, left: 20, paddingVertical:10, paddingHorizontal:20, backgroundColor: 'lightgreen', borderRadius: 15,}]}>{marker.cost}</Text>
+                        <RatingCard rating={marker.rating}/>
+                    </View>
+                    <View style={styles.section}>
+                        <Text style={styles.text}>{marker.title}</Text>
+                    </View>
+                    <View style={styles.section}>
+                        <Text style={styles.text}>{marker.type}</Text>
+                    </View>
+                    <View style={styles.section}>
+                        <Text style={[styles.text, {minHeight: 200}]}>{marker.description}</Text>
                     </View>
                 </View>
                 )}
@@ -38,25 +45,29 @@ const View_marker = ({navigation, route}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
         backgroundColor: Colors.secondary,
         borderBottomColor: 'black',
         borderBottomWidth: 2,
     },
     card: {
-        backgroundColor: 'white',
-        padding: 20,
-        borderRadius: 10,
         alignItems: 'center',
     },
     section: {
+        backgroundColor: 'white',
+        width: '90%',
+        shadowColor: 'black',
+        shadowOpacity: 0.26,
+        borderRadius: 15,
         marginBottom: 20,
+        padding: 10,
     },
     scrollViewContent: {
         flexGrow: 1,
-        alignItems: 'center',
         paddingBottom: 20, // Optional, adds padding to the bottom of the scrollview for better touchability
-        width: '95%', // Full width
+    },
+    text: {
+        fontSize: 20,
+        textAlign: 'center',
     },
 })
 
