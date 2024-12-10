@@ -24,6 +24,7 @@ import ForumScreen from './screens/ForumScreen';
 
 
 const firebaseConfig = {
+  apiKey: "AIzaSyDcOzVB8EXfwDtLlnN5p4bKcscC_ZOOLgE",
   authDomain: "fir-test-b3f66.firebaseapp.com",
   databaseURL: "https://fir-test-b3f66-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "fir-test-b3f66",
@@ -131,6 +132,7 @@ export default function App() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Tabs" component={AppTabs} />
       <Stack.Screen name="View_marker" component={View_marker} />
+      <Stack.Screen name="Add Marker" component={Add_edit_marker} />
     </Stack.Navigator>
   );
 

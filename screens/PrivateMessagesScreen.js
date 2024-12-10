@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, StyleSheet, Modal, TouchableOpacity, Text, TextInput, Button } from 'react-native';
-import { collection, addDoc, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { getDatabase, ref, push, query, orderByChild, onValue, remove } from 'firebase/database';
 import MessageComponent from '../components/MessageComponent';
 import InputComponent from '../components/InputComponent';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -13,53 +13,55 @@ const PrivateMessagesScreen = ({ navigation }) => {
   const [selectedUser, setSelectedUser] = useState('User1'); 
   const [newUserName, setNewUserName] = useState('');
 
-  // Definere forskellige brugere
+  // Define users locally
   const [users, setUsers] = useState(['User1', 'User2', 'User3']);
+  const db = getDatabase();
 
-  // Hent beskeder fra Firebase i realtid
+  // Fetch messages from Firebase Realtime Database
   useEffect(() => {
-    const messagesRef = collection(db, 'privateMessages'); 
-    const q = query(messagesRef, orderBy('createdAt', 'asc'));
+    const messagesRef = ref(db, 'privateMessages');
+    const q = query(messagesRef, orderByChild('createdAt'));
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const messagesData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+    const unsubscribe = onValue(q, (snapshot) => {
+      const messagesData = [];
+      snapshot.forEach((childSnapshot) => {
+        messagesData.push({ id: childSnapshot.key, ...childSnapshot.val() });
+      });
       setMessages(messagesData);
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [db]);
 
-  // Send besked til Firebase
+  // Send message to Firebase
   const sendMessage = async () => {
     if (newMessage.trim().length > 0) {
-      await addDoc(collection(db, 'privateMessages'), {
+      const messagesRef = ref(db, 'privateMessages');
+      await push(messagesRef, {
         text: newMessage,
-        createdAt: new Date(),
+        createdAt: new Date().toISOString(),
         user: selectedUser, 
       });
-      setNewMessage(''); 
+      setNewMessage('');
     }
   };
 
-  // Tilføj ny bruger
+  // Add a new user
   const addUser = () => {
     if (newUserName.trim().length > 0 && !users.includes(newUserName)) {
-      setUsers([...users, newUserName]); 
-      setNewUserName(''); 
-      setAddUserModalVisible(false); 
+      setUsers([...users, newUserName]);
+      setNewUserName('');
+      setAddUserModalVisible(false);
     } else {
       alert('Indtast venligst et gyldigt brugernavn eller brugeren findes allerede.');
     }
   };
 
-  // Slet bruger
+  // Delete a user
   const deleteUser = (userToDelete) => {
     setUsers(users.filter(user => user !== userToDelete));
     if (selectedUser === userToDelete) {
-      setSelectedUser(users[0]); 
+      setSelectedUser(users[0]);
     }
   };
 
@@ -76,7 +78,7 @@ const PrivateMessagesScreen = ({ navigation }) => {
 
       <Text style={styles.title}>Du skriver til: {selectedUser}</Text>
 
-      {/* Modal til at vælge bruger */}
+      {/* Modal for selecting a user */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -98,7 +100,7 @@ const PrivateMessagesScreen = ({ navigation }) => {
         </View>
       </Modal>
 
-      {/* Modal til at tilføje bruger */}
+      {/* Modal for adding a user */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -139,7 +141,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'flex-end', 
+    justifyContent: 'flex-end',
     alignItems: 'center',
     marginBottom: 10,
   },
