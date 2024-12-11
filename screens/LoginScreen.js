@@ -5,6 +5,12 @@ import { Image } from 'react-native';
 import Colors from '../constants/Colors';
 import BlueButton from '../components/BlueButton';
 
+/**
+ * LoginScreen er en skærm, der giver brugeren mulighed for at logge ind.
+ * Skærmen indeholder inputfelter til email og adgangskode.
+ * Når brugeren trykker på knappen "Login", forsøges der at logge brugeren ind.
+ */
+
 const LoginScreen = ({ navigation }) => {
   // State til at holde email, adgangskode og eventuelle fejlmeddelelser
   const [email, setEmail] = useState(''); // State til email

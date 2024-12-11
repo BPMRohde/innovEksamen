@@ -3,6 +3,12 @@ import {useEffect, useState} from "react";
 import Colors from '../constants/Colors';
 import RatingCard from '../components/RatingCard';
 
+/**
+ * View_marker er en skærm, der viser information om en aktivitet.
+ * Skærmen modtager en aktivitet som prop og viser information om aktiviteten.
+ * Skærmen indeholder et billede, titel, type, beskrivelse, pris og rating.
+ */
+
 const View_marker = ({route}) => {
     const [marker, setMarker] = useState('');
 

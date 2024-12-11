@@ -4,6 +4,12 @@ import { getDatabase, ref, onValue, off } from 'firebase/database';
 
 import ActivityCard from '../components/ActivityCard';
 
+/**
+ * Dette er en skærm, der viser en liste over alle aktiviteter.
+ * Skærmen henter aktiviteter fra databasen og viser dem som ActivityCards.
+ * ActivityCards er klikbare og navigerer brugeren til View_marker med aktiviteten som prop.
+ */
+
 const ActivitiesScreen = () => {
   const [activities, setActivities] = useState([]); // State to hold activities
 

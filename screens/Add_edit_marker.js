@@ -2,12 +2,20 @@ import { Text, View, StyleSheet, SafeAreaView, ScrollView, TextInput, Alert } fr
 import {useEffect, useState} from "react"; 
 import { getDatabase, ref, push, update  } from "firebase/database";
 import Colors from '../constants/Colors';
-import { TouchableOpacity } from 'react-native';
 import * as Location from 'expo-location';
 import BlueButton from '../components/BlueButton';
 import {Picker} from '@react-native-picker/picker';
 import CostSelect from '../components/CostSelect';
 import ImagePickerExample from '../components/ImagePicker';
+
+/**
+ * Add_edit_marker er en skærm, der giver brugeren mulighed for at oprette et nyt review.
+ * Skærmen indeholder inputfelter til at udfylde informationer omkring det nye review.
+ * Når brugeren trykker på knappen "Save marker", gemmes det nye review i databasen.
+ * Hvis brugeren ikke udfylder alle felter, vises en fejlmeddelelse.
+ * Hvis adressen ikke kan findes, vises en fejlmeddelelse.
+ * Hvis markøren gemmes korrekt, vises en succesmeddelelse.
+ */
 
 const Add_edit_marker = ({navigation, route}) => {
     const db = getDatabase();

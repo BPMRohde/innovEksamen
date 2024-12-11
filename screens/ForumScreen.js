@@ -10,8 +10,16 @@ import InputComponent from '../components/InputComponent';
 import PrivateMessagesScreen from './PrivateMessagesScreen';
 import uuid from 'react-native-uuid';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { getAuth } from 'firebase/auth';
+/**
+ * ForumHomeScreen er en skærm, der viser en liste over beskeder i et forum.
+ * Brugeren kan skifte forum og sende beskeder til det valgte forum.
+ */
 
-const ForumHomeScreen = ({ navigation }) => {
+const ForumScreen = ({ navigation }) => {
+  const auth = getAuth();
+  const currentUser = auth.currentUser;
+  const [userData, setUserData] = useState({}); // State til at holde brugerdata
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -31,9 +39,24 @@ const ForumHomeScreen = ({ navigation }) => {
       });
       setMessages(messagesData);
     });
-
     return () => unsubscribe();
   }, []);
+
+  // useEffect hook til at hente brugerdata fra Firebase
+  useEffect(() => {
+    if (currentUser) { // Kontroller om der er en nuværende bruger
+      const db = getDatabase(); // Hent databasen
+      const userRef = ref(db, 'users/' + currentUser.uid); // Referer til den specifikke brugers data
+
+      // Lyt til ændringer i brugerens data
+      onValue(userRef, (snapshot) => {
+        const data = snapshot.val(); // Hent data fra snapshot
+        if (data) {
+          setUserData(data); // Opdater state med brugerdata
+        }
+      });
+    }
+  }, [currentUser]); // Afhængighed: kør effekten igen når currentUser ændres
 
   // Send tekstbesked til Firebase
   const sendMessage = async () => {
@@ -46,6 +69,7 @@ const ForumHomeScreen = ({ navigation }) => {
         text: newMessage,
         createdAt: Date.now(),
         forum: selectedForum,
+        user: userData.username,
       });
 
       setNewMessage('');
@@ -90,15 +114,13 @@ const ForumHomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.forumTitle}>You are in: {selectedForum}</Text>
-      <View style={styles.buttonContainer}>
-        <Button title="Choose Forum" onPress={() => setModalVisible(true)} />
+      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+        <Button title={selectedForum} onPress={() => setModalVisible(true)} style={styles.forumTitle}/>
         <TouchableOpacity
           style={styles.privateMessagesButton}
-          onPress={() => navigation.navigate('PrivateMessages')}
+          onPress={() => navigation.navigate('Private messages')}
         >
-          <Text style={styles.privateMessagesText}>Private messages</Text>
-          <MaterialIcons name="arrow-forward" size={24} color="#fff" />
+          <MaterialIcons name="chat" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
 
@@ -127,7 +149,7 @@ const ForumHomeScreen = ({ navigation }) => {
         data={messages.filter((message) => message.forum === selectedForum)}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <MessageComponent text={item.text} image={item.image} />
+          <MessageComponent text={item.text} messageUser={item.user} currentUser={userData.username} />
         )}
       />
       <InputComponent
@@ -142,25 +164,6 @@ const ForumHomeScreen = ({ navigation }) => {
         )}
       />
     </View>
-  );
-};
-
-const Stack = createStackNavigator();
-
-const ForumScreen = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="ForumHome"
-        component={ForumHomeScreen}
-        options={{ title: 'Forum' }}
-      />
-      <Stack.Screen
-        name="PrivateMessages"
-        component={PrivateMessagesScreen}
-        options={{ title: 'Private Messages' }}
-      />
-    </Stack.Navigator>
   );
 };
 

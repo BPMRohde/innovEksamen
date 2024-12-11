@@ -3,7 +3,11 @@ import { View, Text, Button, StyleSheet } from 'react-native'; // Importer nødv
 import { getDatabase, ref, onValue } from 'firebase/database'; // Importer Firebase database funktioner
 import { getAuth, signOut } from 'firebase/auth'; // Importer Firebase autentificering funktioner
 
-// ProfileScreen funktionel komponent
+/**
+ * ProfileScreen er en skærm, der viser brugerens profiloplysninger.
+ * Skærmen henter brugerdata fra Firebase og viser brugernavn, point og badges.
+ * Brugeren har mulighed for at logge ud.
+ */
 const ProfileScreen = () => {
   const [userData, setUserData] = useState({}); // State til at holde brugerdata
   const auth = getAuth(); // Hent autentificeringsinstansen
@@ -36,7 +40,7 @@ const ProfileScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.username}>Brugernavn: {userData.username || 'Ingen brugernavn'}</Text>
+      <Text style={styles.username}>Brugernavn: {userData.username}</Text>
       <Text style={styles.points}>Review Points: {userData.reviewPoints || 0}</Text>
       <Text style={styles.badges}>Badges: {userData.badges ? userData.badges.join(", ") : 'Ingen badges'}</Text>
       <Button title="Log ud" onPress={handleLogout} />

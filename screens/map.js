@@ -6,6 +6,15 @@ import { getDatabase, ref, onValue, off } from "firebase/database";
 import { useNavigation } from '@react-navigation/native';
 import Colors from '../constants/Colors';
 
+/**
+ * Map er en skærm, der viser ent kort som tager udgangspunkt i København.
+ * Skærmen henter markører fra databasen og viser dem på kortet.
+ * Markørerne er klikbare og navigerer brugeren til View_marker med markøren som prop.
+ * Brugeren kan tilføje en ny markør ved at trykke på en floating button i nederste højre hjørne.
+ * Brugeren skal give tilladelse til at bruge lokationsinformation.
+ * Hvis brugeren ikke giver tilladelse, vises en fejlmeddelelse.
+ */
+
 const Map = (props) => {
     const navigation = useNavigation();
     const [markers, setMarkers] = useState([]);

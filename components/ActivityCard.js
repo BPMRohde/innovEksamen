@@ -3,6 +3,12 @@ import { TouchableOpacity, Text, StyleSheet, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Colors from '../constants/Colors';
 
+/**
+ * ActivityCard er en komponent, der viser en aktivitet i form af en kasse med udvalgte informationer om aktiviteten.
+ * Den modtager en prop, activity, som er et objekt med informationer om aktiviteten.
+ * Når brugeren trykker på kassen, navigeres brugeren til View_marker med aktiviteten som prop. 
+ */
+
 const ActivityCard = ({ activity }) => {
     const navigation = useNavigation();
     //Her gemmes aktiviteten i variablen marker, det skal den for at kunne sendes videre til View_marker.

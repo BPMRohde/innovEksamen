@@ -6,6 +6,14 @@ import Colors from '../constants/Colors';
 import { Image } from 'react-native';
 import BlueButton from '../components/BlueButton';
 
+/**
+ * RegisterScreen er en skærm, der giver brugeren mulighed for at registrere sig.
+ * Skærmen indeholder inputfelter til brugernavn, email og adgangskode.
+ * Når brugeren trykker på knappen "Opret Konto", forsøges der at oprette en ny bruger.
+ * Hvis brugeren ikke udfylder alle felter, vises en fejlmeddelelse.
+ * Hvis brugeren oprettes korrekt, vises en succesmeddelelse.
+ */
+
 const RegisterScreen = ({ navigation }) => {
   // State til at holde værdier for brugernavn, email og adgangskode
   const [username, setUsername] = useState(''); // Brugernavn state
@@ -31,7 +39,6 @@ const RegisterScreen = ({ navigation }) => {
 
       // Viser en succesmeddelelse og navigerer til login
       Alert.alert("Registrering succesfuld!", "Du kan nu logge ind.");
-      navigation.navigate('Login'); // Navigerer til login skærmen
     } catch (error) {
       // Viser en fejlmeddelelse, hvis registreringen mislykkes
       Alert.alert("Fejl", error.message);

@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, StyleSheet, Modal, TouchableOpacity, Text, TextInput, Button } from 'react-native';
+import { View, FlatList, StyleSheet, Modal, TouchableOpacity, Text, TextInput, Button, SafeAreaView } from 'react-native';
 import { getDatabase, ref, push, query, orderByChild, onValue, remove } from 'firebase/database';
 import MessageComponent from '../components/MessageComponent';
 import InputComponent from '../components/InputComponent';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
+/**
+ * PrivateMessagesScreen er en skærm, der viser en liste over private beskeder.
+ * Brugeren kan skifte mellem brugere og sende beskeder til den valgte bruger.
+ * Brugeren kan tilføje og slette brugere.
+ */
 
 const PrivateMessagesScreen = ({ navigation }) => {
   const [messages, setMessages] = useState([]);
@@ -66,70 +72,72 @@ const PrivateMessagesScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.selectUserButton} onPress={() => setModalVisible(true)}>
-          <Icon name="person" size={24} color="#fff" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.addButton} onPress={() => setAddUserModalVisible(true)}>
-          <Text style={styles.addButtonText}>➕</Text>
-        </TouchableOpacity>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.selectUserButton} onPress={() => setModalVisible(true)}>
+            <Icon name="person" size={24} color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.addButton} onPress={() => setAddUserModalVisible(true)}>
+            <Text style={styles.addButtonText}>➕</Text>
+          </TouchableOpacity>
+        </View>
+
+        <Text style={styles.title}>Du skriver til: {selectedUser}</Text>
+
+        {/* Modal for selecting a user */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalContainer}>
+            {users.map((user) => (
+              <View key={user} style={styles.userContainer}>
+                <TouchableOpacity onPress={() => {
+                  setSelectedUser(user);
+                  setModalVisible(false);
+                }}>
+                  <Text style={styles.option}>{user}</Text>
+                </TouchableOpacity>
+                <Button title="Slet" onPress={() => deleteUser(user)} color="red" />
+              </View>
+            ))}
+          </View>
+        </Modal>
+
+        {/* Modal for adding a user */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={addUserModalVisible}
+          onRequestClose={() => setAddUserModalVisible(false)}
+        >
+          <View style={styles.modalContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Indtast brugernavn"
+              value={newUserName}
+              onChangeText={setNewUserName}
+            />
+            <Button title="Tilføj" onPress={addUser} />
+            <Button title="Annuller" onPress={() => setAddUserModalVisible(false)} />
+          </View>
+        </Modal>
+
+        <FlatList
+          data={messages.filter(message => message.user === selectedUser)} 
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <MessageComponent text={item.text} />}
+        />
+        <InputComponent
+          newMessage={newMessage}
+          onChangeMessage={setNewMessage}
+          onSendMessage={sendMessage}
+        />
       </View>
-
-      <Text style={styles.title}>Du skriver til: {selectedUser}</Text>
-
-      {/* Modal for selecting a user */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          {users.map((user) => (
-            <View key={user} style={styles.userContainer}>
-              <TouchableOpacity onPress={() => {
-                setSelectedUser(user);
-                setModalVisible(false);
-              }}>
-                <Text style={styles.option}>{user}</Text>
-              </TouchableOpacity>
-              <Button title="Slet" onPress={() => deleteUser(user)} color="red" />
-            </View>
-          ))}
-        </View>
-      </Modal>
-
-      {/* Modal for adding a user */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={addUserModalVisible}
-        onRequestClose={() => setAddUserModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Indtast brugernavn"
-            value={newUserName}
-            onChangeText={setNewUserName}
-          />
-          <Button title="Tilføj" onPress={addUser} />
-          <Button title="Annuller" onPress={() => setAddUserModalVisible(false)} />
-        </View>
-      </Modal>
-
-      <FlatList
-        data={messages.filter(message => message.user === selectedUser)} 
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <MessageComponent text={item.text} />}
-      />
-      <InputComponent
-        newMessage={newMessage}
-        onChangeMessage={setNewMessage}
-        onSendMessage={sendMessage}
-      />
-    </View>
+    </SafeAreaView>
   );
 };
 

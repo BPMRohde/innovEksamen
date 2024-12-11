@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, TextInput, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 // InputComponent tager props til håndtering af beskeder og billeder
 const InputComponent = ({ newMessage, onChangeMessage, onSendMessage, onSendImage }) => {
@@ -12,10 +13,10 @@ const InputComponent = ({ newMessage, onChangeMessage, onSendMessage, onSendImag
         onChangeText={onChangeMessage} // Opdaterer beskeden ved ændring
       />
       <TouchableOpacity style={styles.button} onPress={onSendMessage}>
-        <Text style={styles.buttonText}>Send</Text>
+        <MaterialIcons name="send" size={30} color="#000" />
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={onSendImage}>
-        <Text style={styles.buttonText}>Tag billede</Text>
+        <MaterialIcons name="camera-alt" size={30} color="#000" />
       </TouchableOpacity>
     </View>
   );
@@ -34,9 +35,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     marginRight: 10,
+    borderRadius: 25,
   },
   button: {
-    backgroundColor: '#007BFF',
     padding: 10,
     borderRadius: 5,
     marginLeft: 5,

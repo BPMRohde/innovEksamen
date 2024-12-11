@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'; // Til brug af hooks som useState og useEffect
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { getApps, initializeApp } from "firebase/app"; 
 import {NavigationContainer} from "@react-navigation/native";
@@ -21,7 +20,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import ActivitiesScreen from './screens/ActivitiesScreen';
 import ForumScreen from './screens/ForumScreen';
-
+import PrivateMessagesScreen from './screens/PrivateMessagesScreen';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDcOzVB8EXfwDtLlnN5p4bKcscC_ZOOLgE",
@@ -40,6 +39,14 @@ if (getApps().length < 1) {
   const database = getDatabase(app);
   console.log("Firebase On!");
 }
+
+/**
+ * App er vores hovedkomponent, der styrer navigationen i appen.
+ * Komponenten indeholder en state variabel, der holder styr på brugerens login-status.
+ * Der er to navigationer: en for brugere der er logget ind og en for brugere der ikke er.
+ * Hvis brugeren er logget ind, vises en bundnavigation med fire faner.
+ * Hvis brugeren ikke er logget ind, vises en stak med to skærme: Login og Signup.
+ */
 
 
 export default function App() {
@@ -133,6 +140,7 @@ export default function App() {
       <Stack.Screen name="Tabs" component={AppTabs} />
       <Stack.Screen name="View_marker" component={View_marker} />
       <Stack.Screen name="Add Marker" component={Add_edit_marker} />
+      <Stack.Screen name="Private messages" component={PrivateMessagesScreen} />
     </Stack.Navigator>
   );
 
