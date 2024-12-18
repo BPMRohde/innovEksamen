@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, SafeAreaView, ScrollView, } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, } from 'react-native';
 import { getDatabase, ref, onValue, off } from 'firebase/database';
 
 import ActivityCard from '../components/ActivityCard';
@@ -11,32 +11,34 @@ import ActivityCard from '../components/ActivityCard';
  */
 
 const ActivitiesScreen = () => {
-  const [activities, setActivities] = useState([]); // State to hold activities
+  const [activities, setActivities] = useState([]); // State til at holde aktiviteter
 
   useEffect(() => {
-    // Fetch markers from the database
+    // Hent markører fra Firebase Realtime Database
     const db = getDatabase();
+    // Referer til markører i databasen
     const activitiesRef = ref(db, 'Cities/Copenhagen/Markers');
 
+    // Lyt til ændringer i markører og opdater state
     const unsubscribe = onValue(activitiesRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        // Convert the object from the database into an array of activities
+        // Konverter data til et array af objekter
         const activitiesArray = Object.keys(data).map((key) => ({
           ...data[key],
-          id: key, // Include the key as an ID for each marker
+          id: key, // Gem ID i objektet
         }));
         setActivities(activitiesArray);
       } else {
-        setActivities([]); // Set an empty array if no data
+        setActivities([]); // Sæt aktiviteter til et tomt array hvis der ikke er nogen data.
       }
     });
 
-    // Clean up the listener on component unmount
+    // Ryder op efter komponenten, når den unmountes
     return () => {
       off(activitiesRef);
     };
-  }, []); // Empty dependency array ensures this runs only once
+  }, []); // Ved at angive et tomt array som afhængighed, kører effekten kun ved mount og unmount
 
   return (
     <SafeAreaView style={styles.container}>
@@ -53,16 +55,16 @@ const ActivitiesScreen = () => {
 // Styles for ActivitiesScreen
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Allows the container to fill the available space
-    justifyContent: 'center', // Centers content vertically
-    alignItems: 'center', // Centers content horizontally
-    width: '100%', // Full width
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    width: '100%',
   },
   scrollViewContent: {
     flexGrow: 1,
     alignItems: 'center',
-    paddingBottom: 20, // Optional, adds padding to the bottom of the scrollview for better touchability
-    width: '95%', // Full width
+    paddingBottom: 20, 
+    width: '95%',
   },
 });
 

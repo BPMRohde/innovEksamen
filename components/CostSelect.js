@@ -10,11 +10,11 @@ import { useState } from 'react';
  */
 
 const CostSelect = ({ action }) => {
-    const [selected, setSelected] = useState(null); // Track the selected option
+    const [selected, setSelected] = useState(null); // Tracker den valgte prisklasse
 
     const handlePress = (value) => {
-        setSelected(value); // Update the selected value
-        action('cost',value); // Call the action function if provided
+        setSelected(value); // opdaterer den valgte prisklasse
+        action('cost',value); // kalder action med den valgte prisklasse
     };
 
     return (
@@ -25,7 +25,7 @@ const CostSelect = ({ action }) => {
               onPress={() => handlePress(option)}
               style={[
                 styles.button,
-                selected === option && styles.selectedButton, // Apply selected style
+                selected === option && styles.selectedButton,
               ]}
             >
               <Text>{option}</Text>

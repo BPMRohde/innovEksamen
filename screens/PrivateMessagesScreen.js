@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, StyleSheet, Modal, TouchableOpacity, Text, TextInput, Button, SafeAreaView } from 'react-native';
-import { getDatabase, ref, push, query, orderByChild, onValue, remove } from 'firebase/database';
+import { getDatabase, ref, push, query, orderByChild, onValue } from 'firebase/database';
 import MessageComponent from '../components/MessageComponent';
 import InputComponent from '../components/InputComponent';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -85,7 +85,7 @@ const PrivateMessagesScreen = ({ navigation }) => {
 
         <Text style={styles.title}>Du skriver til: {selectedUser}</Text>
 
-        {/* Modal for selecting a user */}
+        {/* Modal til at vælge en bruger */}
         <Modal
           animationType="slide"
           transparent={true}

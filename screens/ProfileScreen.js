@@ -41,8 +41,6 @@ const ProfileScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.username}>Brugernavn: {userData.username}</Text>
-      <Text style={styles.points}>Review Points: {userData.reviewPoints || 0}</Text>
-      <Text style={styles.badges}>Badges: {userData.badges ? userData.badges.join(", ") : 'Ingen badges'}</Text>
       <Button title="Log ud" onPress={handleLogout} />
     </View>
   );

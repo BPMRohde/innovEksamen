@@ -1,6 +1,6 @@
 import { Text, View, StyleSheet, SafeAreaView, ScrollView, TextInput, Alert } from 'react-native';
 import {useEffect, useState} from "react"; 
-import { getDatabase, ref, push, update  } from "firebase/database";
+import { getDatabase, ref, push } from "firebase/database";
 import Colors from '../constants/Colors';
 import * as Location from 'expo-location';
 import BlueButton from '../components/BlueButton';

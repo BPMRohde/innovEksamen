@@ -2,11 +2,14 @@ import { useState } from 'react';
 import { TouchableOpacity, Image, View, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
+/**
+ * ImagePickerExample er en komponent der giver brugeren mulighed for at vælge et billede fra deres enhed, billedet vises derefter i appen.
+ */
+
 export default function ImagePickerExample() {
   const [image, setImage] = useState(null);
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images', 'videos'],
       allowsEditing: true,

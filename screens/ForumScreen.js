@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, StyleSheet, Button, Modal, TouchableOpacity, Text } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { getDatabase, ref, push, set, onValue, query, orderByChild } from 'firebase/database';
-import { uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '../components/firebaseconfig';
-import * as ImagePicker from 'expo-image-picker';
 import MessageComponent from '../components/MessageComponent';
 import InputComponent from '../components/InputComponent';
-import PrivateMessagesScreen from './PrivateMessagesScreen';
-import uuid from 'react-native-uuid';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { getAuth } from 'firebase/auth';
 /**
@@ -24,7 +18,7 @@ const ForumScreen = ({ navigation }) => {
   const [newMessage, setNewMessage] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedForum, setSelectedForum] = useState('Denmark');
-  const forums = ['Denmark', 'Thailand', 'France'];
+  const forums = ['København', 'Rom', 'London'];
 
   // Hent beskeder fra Firebase i realtid
   useEffect(() => {
@@ -75,42 +69,6 @@ const ForumScreen = ({ navigation }) => {
       setNewMessage('');
     }
   };
-  /**
-  // Tag foto og upload til Firebase Storage
-  const takePhoto = async () => {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
-    if (status !== 'granted') {
-      alert('Kameratilladelse er påkrævet');
-      return;
-    }
-
-    const result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      const uniqueId = uuid.v4();
-      const imageRef = ref(storage, `images/${uniqueId}`);
-      const img = await fetch(result.uri);
-      const bytes = await img.blob();
-
-      await uploadBytes(imageRef, bytes);
-      const downloadURL = await getDownloadURL(imageRef);
-
-      const db = getDatabase();
-      const messagesRef = ref(db, 'messages');
-      const newMessageRef = push(messagesRef);
-
-      await set(newMessageRef, {
-        image: downloadURL,
-        createdAt: Date.now(),
-        forum: selectedForum,
-      });
-    }
-  };
-  */
 
   return (
     <View style={styles.container}>
