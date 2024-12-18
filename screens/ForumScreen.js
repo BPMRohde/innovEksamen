@@ -17,7 +17,7 @@ const ForumScreen = ({ navigation }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedForum, setSelectedForum] = useState('Denmark');
+  const [selectedForum, setSelectedForum] = useState('København');
   const forums = ['København', 'Rom', 'London'];
 
   // Hent beskeder fra Firebase i realtid
