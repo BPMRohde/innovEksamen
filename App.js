@@ -23,7 +23,7 @@ import ForumScreen from './screens/ForumScreen';
 import PrivateMessagesScreen from './screens/PrivateMessagesScreen';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDcOzVB8EXfwDtLlnN5p4bKcscC_ZOOLgE",
+  apiKey: "",
   authDomain: "fir-test-b3f66.firebaseapp.com",
   databaseURL: "https://fir-test-b3f66-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "fir-test-b3f66",
